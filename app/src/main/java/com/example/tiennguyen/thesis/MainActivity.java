@@ -1,5 +1,7 @@
 package com.example.tiennguyen.thesis;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -11,14 +13,19 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.example.tiennguyen.thesis.fragment.ContentFm;
@@ -27,6 +34,7 @@ import com.example.tiennguyen.thesis.fragment.UserFm;
 import com.example.tiennguyen.thesis.interfaces.Resourceble;
 import com.example.tiennguyen.thesis.interfaces.ScreenShotable;
 import com.example.tiennguyen.thesis.model.SlideMenuItem;
+import com.example.tiennguyen.thesis.util.Constants;
 import com.example.tiennguyen.thesis.util.ViewAnimator;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
@@ -50,16 +58,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Fragment fragment = null;
     MaterialSearchView searchView;
 
+    //------------------------
+    // Constants
+    private Constants CONSTANTS;
+
+    // Search property
+    private FrameLayout flSearchProperty;
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
+        event();
     }
 
     private void initView(){
         refView();
+        initialNewClass();
         setClickEvent();
         setActionBar();
         createMenuList();
@@ -74,7 +91,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //viewAnimator = new ViewAnimator<>(this, list, drawerLayout, this);
     }
 
-
+    private void event() {
+        flSearchProperty.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                displaySearchDialog();
+            }
+        });
+    }
 
     private void refView() {
         //-----------drawer menu-------------
@@ -87,6 +111,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         searchView = (MaterialSearchView) findViewById(R.id.search_view);
 
+        flSearchProperty = (FrameLayout) findViewById(R.id.fl_search_property);
+
+    }
+
+    private void initialNewClass() {
+        CONSTANTS = new Constants();
     }
 
     private  void setClickEvent() {
@@ -179,15 +209,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return true;
     }
 
-    public void searched(MaterialSearchView searchView) {
+    public void searched(final MaterialSearchView searchView) {
         searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
             @Override
             public void onSearchViewShown() {
-                replaceFragment(screenShot, 0, "Searching");
+                searchView.setHint("Searching for Song");
+                flSearchProperty.setVisibility(View.VISIBLE);
+                // displaySearchDialog();
             }
 
             @Override
             public void onSearchViewClosed() {
+                flSearchProperty.setVisibility(View.GONE);
+            }
+        });
+
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
             }
         });
     }
@@ -287,5 +332,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void addViewToContainer(View view) {
         linearLayout.addView(view);
+    }
+
+    private void displaySearchDialog() {
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogLayout = inflater.inflate(R.layout.dialog_search_title, null);
+        final RadioButton song = (RadioButton) dialogLayout.findViewById(R.id.rb_song);
+        final RadioButton album = (RadioButton) dialogLayout.findViewById(R.id.rb_album);
+        final RadioButton artist = (RadioButton) dialogLayout.findViewById(R.id.rb_artist);
+        final RadioButton composer = (RadioButton) dialogLayout.findViewById(R.id.rb_composer);
+
+        AlertDialog.Builder searchDialog = new AlertDialog.Builder(this);
+        searchDialog.setView(dialogLayout);
+        searchDialog.setTitle(CONSTANTS.SEARCH_TITLE);
+        searchDialog.setPositiveButton(CONSTANTS.OK, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String search = "Searching for ";
+                if (song.isChecked()) {
+                    searchView.setHint(search + song.getText());
+                } else if (album.isChecked()) {
+                    searchView.setHint(search + album.getText());
+                } else if (artist.isChecked()) {
+                    searchView.setHint(search + artist.getText());
+                } else if (composer.isChecked()) {
+                    searchView.setHint(search + composer.getText());
+                }
+            }
+        });
+        searchDialog.setNegativeButton(CONSTANTS.CANCEL, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                searchView.closeSearch();
+            }
+        });
+        searchDialog.create().show();
     }
 }
