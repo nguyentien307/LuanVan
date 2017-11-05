@@ -39,5 +39,6 @@ dependencies {
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.miguelcatalan:materialsearchview:1.4.0'
+    compile 'com.github.iammert:InteractivePlayerView:f4f6490290'
     testCompile 'junit:junit:4.12'
 }
