@@ -9,4 +9,9 @@
     <!--SearchView-->
     <dimen name="radio_group_margin_left">25dp</dimen>
     <dimen name="search_title_name">18sp</dimen>
+    <dimen name="search_result_num_margin_left">12dp</dimen>
+    <dimen name="search_result_num_margin_top">8dp</dimen>
+    <dimen name="search_result_num_margin_bottom">8dp</dimen>
+    <dimen name="search_result_list_margin_top">5dp</dimen>
+    <dimen name="image_item_margin">7dp</dimen>
 </resources>

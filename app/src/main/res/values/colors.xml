@@ -5,4 +5,8 @@
     <color name="colorAccent">#FF4081</color>
     
     <color name="devider_color">#1f0000</color>
+
+    <!--SearchView-->
+    <color name="result_background">#dddddd</color>
+    <color name="result_list_background">#ffffff</color>
 </resources>

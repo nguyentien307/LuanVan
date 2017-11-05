@@ -19,4 +19,7 @@ public class Constants {
 
     // Dialog title
     public final String SEARCH_TITLE = "Search title";
+
+    // File name
+    public final String SUGGESTION_FILE = "suggestion.txt";
 }

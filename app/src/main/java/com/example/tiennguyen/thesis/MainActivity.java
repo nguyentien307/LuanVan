@@ -1,6 +1,5 @@
 package com.example.tiennguyen.thesis;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -23,21 +22,24 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.example.tiennguyen.thesis.fragment.ContentFm;
 import com.example.tiennguyen.thesis.fragment.HomeFm;
+import com.example.tiennguyen.thesis.fragment.SearchingFm;
 import com.example.tiennguyen.thesis.fragment.UserFm;
 import com.example.tiennguyen.thesis.interfaces.Resourceble;
 import com.example.tiennguyen.thesis.interfaces.ScreenShotable;
 import com.example.tiennguyen.thesis.model.SlideMenuItem;
 import com.example.tiennguyen.thesis.util.Constants;
 import com.example.tiennguyen.thesis.util.ViewAnimator;
+import com.example.tiennguyen.thesis.util.WriteData;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     // Search property
     private FrameLayout flSearchProperty;
+    private String searchTitle = "";
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -71,7 +74,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
-        event();
     }
 
     private void initView(){
@@ -89,15 +91,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         drawerLayout.setScrimColor(Color.TRANSPARENT);
         viewAnimator = new ViewAnimator<>(this, list, screenShot, drawerLayout, this);
         //viewAnimator = new ViewAnimator<>(this, list, drawerLayout, this);
-    }
-
-    private void event() {
-        flSearchProperty.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                displaySearchDialog();
-            }
-        });
     }
 
     private void refView() {
@@ -213,9 +206,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
             @Override
             public void onSearchViewShown() {
-                searchView.setHint("Searching for Song");
+                searchView.setHint("Searching for song");
+                searchTitle = "song";
                 flSearchProperty.setVisibility(View.VISIBLE);
-                // displaySearchDialog();
+                eventForSearch();
+                replaceFragment(screenShot, 0, "Searching");
             }
 
             @Override
@@ -224,15 +219,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
+//        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+////                if (!newText.equals("")) {
+////                    replaceFragment(screenShot, 0, "Searching");
+////                }
+//                return false;
+//            }
+//        });
+    }
 
+    private void eventForSearch() {
+        flSearchProperty.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
+            public void onClick(View v) {
+                displaySearchDialog();
             }
         });
     }
@@ -297,7 +304,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            case "Song" :screenShot = new FragmentSong(); break;
 //            case "Album" :screenShot = new FragmentAlbum(); break;
 //            case "Mv" :screenShot = new FragmentMv(); break;
-//            case "Searching": screenShot = new SearchingFragment(); break;
+            case "Searching": screenShot = new SearchingFm(); break;
         }
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, (Fragment) screenShot).commit();
         return screenShot;
@@ -350,14 +357,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onClick(DialogInterface dialog, int which) {
                 String search = "Searching for ";
                 if (song.isChecked()) {
-                    searchView.setHint(search + song.getText());
+                    searchTitle = song.getText().toString().toLowerCase();
                 } else if (album.isChecked()) {
-                    searchView.setHint(search + album.getText());
+                    searchTitle = album.getText().toString().toLowerCase();
                 } else if (artist.isChecked()) {
-                    searchView.setHint(search + artist.getText());
+                    searchTitle = artist.getText().toString().toLowerCase();
                 } else if (composer.isChecked()) {
-                    searchView.setHint(search + composer.getText());
+                    searchTitle = composer.getText().toString().toLowerCase();
                 }
+                searchView.setHint("Searching for " + searchTitle);
             }
         });
         searchDialog.setNegativeButton(CONSTANTS.CANCEL, new DialogInterface.OnClickListener() {
@@ -368,5 +376,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
         searchDialog.create().show();
+    }
+
+    private void saveData(String data, final int mode) {
+        WriteData writeData = new WriteData(new WriteData.GetFileOutputStream() {
+            @Override
+            public FileOutputStream getFileOutputStream() {
+                FileOutputStream fos = null;
+                try {
+                    fos = openFileOutput(CONSTANTS.SUGGESTION_FILE, mode);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                return fos;
+            }
+        });
+        writeData.saveData(data);
     }
 }

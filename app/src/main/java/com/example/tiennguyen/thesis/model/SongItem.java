@@ -8,13 +8,13 @@ import java.util.ArrayList;
 
 public class SongItem {
     private String title;
-    private String views;
+    private int views;
     private String link;
     private ArrayList<PersonItem> artist;
     private ArrayList<PersonItem> composer;
     private String linkLyric;
 
-    public SongItem(String title, String views, String link, ArrayList<PersonItem> artist, ArrayList<PersonItem> composer, String linkLyric) {
+    public SongItem(String title, int views, String link, ArrayList<PersonItem> artist, ArrayList<PersonItem> composer, String linkLyric) {
         this.title = title;
         this.views = views;
         this.link = link;
@@ -31,11 +31,11 @@ public class SongItem {
         this.title = title;
     }
 
-    public String getViews() {
+    public int getViews() {
         return views;
     }
 
-    public void setViews(String views) {
+    public void setViews(int views) {
         this.views = views;
     }
 
