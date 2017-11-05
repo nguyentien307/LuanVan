@@ -55,10 +55,8 @@ public class SearchingFm extends Fragment implements ScreenShotable {
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                StringUtils convertedToUnsigned = new StringUtils();
-                String name = convertedToUnsigned.convertedToUnsigned(query);
                 Intent intent = new Intent(getActivity(), SearchResult.class);
-                intent.putExtra("data", name);
+                intent.putExtra("data", query);
                 startActivity(intent);
                 return false;
             }

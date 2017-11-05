@@ -9,4 +9,7 @@
     <!--SearchView-->
     <color name="result_background">#dddddd</color>
     <color name="result_list_background">#ffffff</color>
+
+    <!--Playing Music-->
+    <color name="red">#fc1606</color>
 </resources>

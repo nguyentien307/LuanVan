@@ -1,5 +1,6 @@
 package com.example.tiennguyen.thesis;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -34,6 +35,7 @@ import com.example.tiennguyen.thesis.interfaces.Resourceble;
 import com.example.tiennguyen.thesis.interfaces.ScreenShotable;
 import com.example.tiennguyen.thesis.model.SlideMenuItem;
 import com.example.tiennguyen.thesis.util.Constants;
+import com.example.tiennguyen.thesis.util.SearchDialog;
 import com.example.tiennguyen.thesis.util.ViewAnimator;
 import com.example.tiennguyen.thesis.util.WriteData;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
@@ -118,9 +120,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void onClick(View v){
         switch(v.getId()){
-            case R.id.left_drawer: {
+            case R.id.left_drawer:
                 drawerLayout.closeDrawers();
-            };break;
+            break;
             default:
                 Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();break;
 
@@ -239,7 +241,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         flSearchProperty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                displaySearchDialog();
+                SearchDialog searchDialog = new SearchDialog(new SearchDialog.CustomLayoutInflater() {
+                    @Override
+                    public LayoutInflater getLayoutInflater() {
+                        return MainActivity.this.getLayoutInflater();
+                    }
+
+                    @Override
+                    public AlertDialog.Builder getAlertDialog() {
+                        AlertDialog.Builder searchTitleDialog = new AlertDialog.Builder(MainActivity.this);
+                        return searchTitleDialog;
+                    }
+
+                    @Override
+                    public void onResult(String title) {
+                        searchTitle = title;
+                        searchView.setHint("Searching for " + searchTitle);
+                    }
+
+                    @Override
+                    public String getCheckedTitle() {
+                        return searchTitle;
+                    }
+                });
+                searchDialog.displaySearchDialog();
             }
         });
     }
@@ -287,7 +312,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         View view = findViewById(R.id.content_frame);
         int finalRadius = Math.max(view.getWidth(), view.getHeight());
         SupportAnimator animator = ViewAnimationUtils.createCircularReveal(view, 0, topPosition, 0, finalRadius);
-        if (name == "Searching") {
+        if (name.equals("Searching")) {
             animator = ViewAnimationUtils.createCircularReveal(view, 370, 0, 0, finalRadius);
         }
         animator.setInterpolator(new AccelerateInterpolator());
@@ -341,42 +366,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         linearLayout.addView(view);
     }
 
-    private void displaySearchDialog() {
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogLayout = inflater.inflate(R.layout.dialog_search_title, null);
-        final RadioButton song = (RadioButton) dialogLayout.findViewById(R.id.rb_song);
-        final RadioButton album = (RadioButton) dialogLayout.findViewById(R.id.rb_album);
-        final RadioButton artist = (RadioButton) dialogLayout.findViewById(R.id.rb_artist);
-        final RadioButton composer = (RadioButton) dialogLayout.findViewById(R.id.rb_composer);
-
-        AlertDialog.Builder searchDialog = new AlertDialog.Builder(this);
-        searchDialog.setView(dialogLayout);
-        searchDialog.setTitle(CONSTANTS.SEARCH_TITLE);
-        searchDialog.setPositiveButton(CONSTANTS.OK, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String search = "Searching for ";
-                if (song.isChecked()) {
-                    searchTitle = song.getText().toString().toLowerCase();
-                } else if (album.isChecked()) {
-                    searchTitle = album.getText().toString().toLowerCase();
-                } else if (artist.isChecked()) {
-                    searchTitle = artist.getText().toString().toLowerCase();
-                } else if (composer.isChecked()) {
-                    searchTitle = composer.getText().toString().toLowerCase();
-                }
-                searchView.setHint("Searching for " + searchTitle);
-            }
-        });
-        searchDialog.setNegativeButton(CONSTANTS.CANCEL, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-                searchView.closeSearch();
-            }
-        });
-        searchDialog.create().show();
-    }
+//    private void displaySearchDialog() {
+//        LayoutInflater inflater = getLayoutInflater();
+//        View dialogLayout = inflater.inflate(R.layout.dialog_search_title, null);
+//        final RadioButton song = (RadioButton) dialogLayout.findViewById(R.id.rb_song);
+//        final RadioButton album = (RadioButton) dialogLayout.findViewById(R.id.rb_album);
+//        final RadioButton artist = (RadioButton) dialogLayout.findViewById(R.id.rb_artist);
+//        final RadioButton composer = (RadioButton) dialogLayout.findViewById(R.id.rb_composer);
+//
+//        AlertDialog.Builder searchDialog = new AlertDialog.Builder(this);
+//        searchDialog.setView(dialogLayout);
+//        searchDialog.setTitle(CONSTANTS.SEARCH_TITLE);
+//        searchDialog.setPositiveButton(CONSTANTS.OK, new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                String search = "Searching for ";
+//                if (song.isChecked()) {
+//                    searchTitle = song.getText().toString().toLowerCase();
+//                } else if (album.isChecked()) {
+//                    searchTitle = album.getText().toString().toLowerCase();
+//                } else if (artist.isChecked()) {
+//                    searchTitle = artist.getText().toString().toLowerCase();
+//                } else if (composer.isChecked()) {
+//                    searchTitle = composer.getText().toString().toLowerCase();
+//                }
+//                searchView.setHint("Searching for " + searchTitle);
+//            }
+//        });
+//        searchDialog.setNegativeButton(CONSTANTS.CANCEL, new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.cancel();
+//                searchView.closeSearch();
+//            }
+//        });
+//        searchDialog.create().show();
+//    }
 
     private void saveData(String data, final int mode) {
         WriteData writeData = new WriteData(new WriteData.GetFileOutputStream() {
