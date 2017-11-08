@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/topic_bar_height"
+        android:id="@+id/rlTitle"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="15dp"
+        >
+        <LinearLayout
+            android:id="@+id/llSpace"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="40dp"
+            android:layout_alignParentBottom="true"
+            android:background="#66d3faea"
+            android:visibility="gone"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/right_radius_background"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="40dp"
+            >
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvTopicTitle"
+                android:text="Topic title"
+                android:paddingStart="48dp"
+                android:textColor="#106c4d"
+                android:textSize="20sp"
+                android:layout_centerVertical="true"
+                />
+
+            <RelativeLayout
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_toStartOf="@+id/tvTopicTitle"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/rlButton">
+                <RelativeLayout
+                    android:id="@+id/button"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerInParent="true"
+                    >
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_keyboard_arrow_up_black_24dp" />
+                </RelativeLayout>
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+
+    <com.github.aakira.expandablelayout.ExpandableLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/expandableLayout"
+        android:layout_below="@+id/rlTitle"
+        android:orientation="vertical"
+        app:ael_duration = "400"
+        app:ael_expanded = "true"
+        app:ael_interpolator = "bounce"
+        android:background="@drawable/expandable_background"
+        android:layout_marginStart="40dp"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toStartOf="@+id/button"
+            android:id="@+id/tvTopicDetail"
+            android:text="Topic detail"
+            android:padding="16dp"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            />
+
+
+    </com.github.aakira.expandablelayout.ExpandableLinearLayout>
+
+    <LinearLayout
+        android:layout_width="@dimen/circle_background_topic"
+        android:layout_height="@dimen/circle_background_topic"
+        android:background="@drawable/circle_background"
+        android:gravity="center"
+        android:id="@+id/llImageButton"
+        >
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:id="@+id/ivTopic"
+            android:src="@drawable/icons8_home_page_50"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>

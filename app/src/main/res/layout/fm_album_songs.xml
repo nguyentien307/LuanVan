@@ -1,0 +1,67 @@
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="fill_vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+
+        >
+        <RelativeLayout
+            android:id="@+id/rlBackgound"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:focusableInTouchMode="true"
+            >
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/imgViewAlbumBG"
+                android:background="#aaaaaa"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="16dp"
+                android:paddingBottom="8dp"
+                android:layout_alignParentBottom="true"
+                android:id="@+id/llBackground"
+                android:background="#99f9efef"
+
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ten album"
+                    android:textSize="20sp"
+                    android:id="@+id/tvAlbumTitle"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ten ca si"
+                    android:textSize="16sp"
+                    android:id="@+id/tvAlbumSingers"
+                    />
+
+            </LinearLayout>
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@+id/rlBackgound"
+            >
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rccViewAlbumSongs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical">
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+    </RelativeLayout>
+</android.support.v4.widget.NestedScrollView>

@@ -5,8 +5,6 @@ import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,12 +16,12 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.tiennguyen.thesis.Fab;
 import com.example.tiennguyen.thesis.R;
-import com.example.tiennguyen.thesis.adapter.AlbumAdapter;
 import com.example.tiennguyen.thesis.adapter.CategoryAdapter;
+import com.example.tiennguyen.thesis.adapter.SongAdapter;
 import com.example.tiennguyen.thesis.interfaces.ScreenShotable;
-import com.example.tiennguyen.thesis.model.AlbumItem;
 import com.example.tiennguyen.thesis.model.CategoryItem;
 import com.example.tiennguyen.thesis.model.PersonItem;
+import com.example.tiennguyen.thesis.model.SongItem;
 import com.example.tiennguyen.thesis.util.Constants;
 import com.gordonwong.materialsheetfab.MaterialSheetFab;
 import com.gordonwong.materialsheetfab.MaterialSheetFabEventListener;
@@ -38,18 +36,17 @@ import java.util.ArrayList;
  * Created by TIENNGUYEN on 11/3/2017.
  */
 
-public class AlbumFm extends Fragment implements ScreenShotable {
+public class CategoryFm extends Fragment implements ScreenShotable {
 
     private View containerView;
     private Bitmap bitmap;
 
-
     private RecyclerView recyclerView;
-    private AlbumAdapter adapter;
-    private ArrayList<AlbumItem> arrAlbums;
+    private SongAdapter adapter;
+    private ArrayList<SongItem> arrSongs;
     private ImageView ivTopBgCover;
     private TextView tvIntro;
-    private RecyclerView.LayoutManager layoutManger;
+    ImageView imgBG;
 
     private RecyclerView rcViewCategory;
     ArrayList<CategoryItem> arrCategory = new ArrayList<>();
@@ -60,14 +57,15 @@ public class AlbumFm extends Fragment implements ScreenShotable {
 
     String res = "";
 
-    public static AlbumFm newInstance(String name) {
-        AlbumFm contentFragment = new AlbumFm();
+    public static CategoryFm newInstance(String name) {
+        CategoryFm contentFragment = new CategoryFm();
         Bundle bundle = new Bundle();
         bundle.putString("name", name);
         contentFragment.setArguments(bundle);
 
         return contentFragment;
     }
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -84,7 +82,7 @@ public class AlbumFm extends Fragment implements ScreenShotable {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fm_album, viewGroup, false);
+        View view = inflater.inflate(R.layout.fm_category, viewGroup, false);
 
         ivTopBgCover = (ImageView) view.findViewById(R.id.ivTopBgCover);
         tvIntro = (TextView) view.findViewById(R.id.tvIntro);
@@ -98,19 +96,20 @@ public class AlbumFm extends Fragment implements ScreenShotable {
                 .error(R.drawable.item_up)
                 .into(ivTopBgCover);
 
+
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
 
-        arrAlbums = new ArrayList<>();
-        adapter = new AlbumAdapter(getContext(), arrAlbums);
+        arrSongs = new ArrayList<>();
+        adapter = new SongAdapter(arrSongs, getContext(), false);
 
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new AlbumAdapter.GridSpacingItemDecoration(2, adapter.dpToPx(10), true));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setAdapter(adapter);
 
-        prepareAlbums();
+        prepareSongs();
+
 
 
         Fab fab = (Fab) view.findViewById(R.id.fab);
@@ -162,30 +161,31 @@ public class AlbumFm extends Fragment implements ScreenShotable {
         return view;
     }
 
-    private void prepareAlbums(){
+    private void prepareSongs() {
         JSONObject data = null;
         try {
-            data = new JSONObject(Constants.data);
+            data = new JSONObject(Constants.song_data);
 
-            JSONArray albumListJSON = data.getJSONArray("list");
-            for (int albIndex = 0; albIndex < albumListJSON.length(); albIndex++) {
-                JSONObject album = albumListJSON.getJSONObject(albIndex);
-                String title = album.getString("title");
-                String img = album.getString("img");
-                String href = album.getString("href");
-                JSONArray singersJSON = album.getJSONArray("singers");
+            JSONArray songList = data.getJSONArray("list");
+            for(int songIndex = 0; songIndex < songList.length() ; songIndex++){
+                JSONObject song = songList.getJSONObject(songIndex);
+                String title = song.getString("title");
+                String img = song.getString("img");
+                String href = song.getString("href");
+                JSONArray singersJSON = song.getJSONArray("singers");
                 ArrayList<PersonItem> arrSinger = new ArrayList<PersonItem>();
-                for (int singerIndex = 0; singerIndex < singersJSON.length(); singerIndex++) {
+                ArrayList<PersonItem> arrComposer = new ArrayList<PersonItem>();
+                for (int singerIndex = 0; singerIndex < singersJSON.length(); singerIndex++ ){
                     JSONObject singer = singersJSON.getJSONObject(singerIndex);
                     String singerName = singer.getString("singerName");
                     String singerHref = singer.getString("singerHref");
-                    PersonItem singerItem = new PersonItem(singerName, singerHref, 100);
+                    PersonItem singerItem = new PersonItem(singerName, singerHref, 200);
                     arrSinger.add(singerItem);
                 }
-
-                AlbumItem albumItem = new AlbumItem(title, href, img, 200, arrSinger);
-
-                arrAlbums.add(albumItem);
+                PersonItem composer = new PersonItem("NHAC SĨ", "", 200);
+                arrComposer.add(composer);
+                SongItem songItem = new SongItem(title,200, href, arrSinger, arrComposer, "", img);
+                arrSongs.add(songItem);
 
             }
 
@@ -194,60 +194,8 @@ public class AlbumFm extends Fragment implements ScreenShotable {
             e.printStackTrace();
         }
 
-    }
 
-//    private void prepareAlbums() {
-//        GetData getData = new GetData(getContext());
-//        BaseURI baseURI = new BaseURI();
-//        String link = "https://web-service-app.herokuapp.com/album/album-hot-list";
-//        getData.setDataDownloadListener(new GetData.DataDownloadListener() {
-//            @Override
-//            public void dataDownloadedSuccessfully(JSONObject data) {
-//                try {
-//
-//                    JSONArray albumListJSON = data.getJSONArray("list");
-//                    for (int albIndex = 0; albIndex < albumListJSON.length(); albIndex++) {
-//                        JSONObject album = albumListJSON.getJSONObject(albIndex);
-//                        String title = album.getString("title");
-//                        String img = album.getString("img");
-//                        String href = album.getString("href");
-//                        JSONArray singersJSON = album.getJSONArray("singers");
-//                        ArrayList<PersonItem> arrSinger = new ArrayList<PersonItem>();
-//                        for (int singerIndex = 0; singerIndex < singersJSON.length(); singerIndex++) {
-//                            JSONObject singer = singersJSON.getJSONObject(singerIndex);
-//                            String singerName = singer.getString("singerName");
-//                            String singerHref = singer.getString("singerHref");
-//                            PersonItem singerItem = new PersonItem(singerName, singerHref, 100);
-//                            arrSinger.add(singerItem);
-//                        }
-//
-//                        AlbumItem albumItem = new AlbumItem(title, href, img, 200, arrSinger);
-//
-//                        arrAlbums.add(albumItem);
-//
-//                    }
-//
-//
-//
-////                    AlbumAdapter adapter = new AlbumAdapter(getContext(), albumList, false);
-////                    rccViewAlbum.setAdapter(adapter);
-//                    adapter.notifyDataSetChanged();
-//
-//
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//
-//
-//            }
-//
-//            @Override
-//            public void dataDownloadFailed() {
-//
-//            }
-//        });
-//        getData.execute(link);
-//    }
+    }
 
 
     private void setData() {
@@ -261,7 +209,7 @@ public class AlbumFm extends Fragment implements ScreenShotable {
         CategoryItem item4 = new CategoryItem("Nhạc Dân ca", "");
         arrCategory.add(item4);
 
-        CategoryAdapter adapter = new CategoryAdapter(arrCategory, getContext(), materialSheetFab, Constants.ALBUM_TYPE);
+        CategoryAdapter adapter = new CategoryAdapter(arrCategory, getContext(), materialSheetFab, Constants.CATEGORY_TYPE);
         rcViewCategory.setAdapter(adapter);
     }
 
@@ -271,11 +219,16 @@ public class AlbumFm extends Fragment implements ScreenShotable {
         Thread thread = new Thread() {
             @Override
             public void run() {
-                Bitmap bitmap = Bitmap.createBitmap(containerView.getWidth(),
-                        containerView.getHeight(), Bitmap.Config.ARGB_8888);
-                Canvas canvas = new Canvas(bitmap);
-                containerView.draw(canvas);
-                AlbumFm.this.bitmap = bitmap;
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Bitmap bitmap = Bitmap.createBitmap(containerView.getWidth(),
+                                containerView.getHeight(), Bitmap.Config.ARGB_8888);
+                        Canvas canvas = new Canvas(bitmap);
+                        containerView.draw(canvas);
+                        CategoryFm.this.bitmap = bitmap;
+                    }
+                });
             }
         };
 

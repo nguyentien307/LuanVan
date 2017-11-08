@@ -1,6 +1,5 @@
 package com.example.tiennguyen.thesis;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -23,13 +22,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.example.tiennguyen.thesis.fragment.AlbumFm;
+import com.example.tiennguyen.thesis.fragment.CategoryFm;
 import com.example.tiennguyen.thesis.fragment.ContentFm;
 import com.example.tiennguyen.thesis.fragment.HomeFm;
+import com.example.tiennguyen.thesis.fragment.InformationFm;
+import com.example.tiennguyen.thesis.fragment.PlaylistFm;
+import com.example.tiennguyen.thesis.fragment.StyleFm;
 import com.example.tiennguyen.thesis.fragment.UserFm;
 import com.example.tiennguyen.thesis.interfaces.Resourceble;
 import com.example.tiennguyen.thesis.interfaces.ScreenShotable;
@@ -81,8 +84,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setActionBar();
         createMenuList();
 
-        screenShot = new HomeFm();
-        getSupportFragmentManager().beginTransaction()
+        screenShot = new InformationFm();
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .addToBackStack(null)
                 .replace(R.id.content_frame, (Fragment) screenShot)
                 .commit();
 
@@ -135,20 +141,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void createMenuList() {
-        SlideMenuItem menuItem0 = new SlideMenuItem(ContentFm.CLOSE, R.drawable.icn_close);
+
+        SlideMenuItem menuItem0 = new SlideMenuItem(Constants.CLOSE, R.drawable.icn_close);
         list.add(menuItem0);
-        SlideMenuItem menuItem = new SlideMenuItem(ContentFm.USER, R.drawable.icons8_user_50);
+        SlideMenuItem menuItem = new SlideMenuItem(Constants.FRAGMENT_USER, R.drawable.icons8_user_50);
         list.add(menuItem);
-        SlideMenuItem menuItem2 = new SlideMenuItem(ContentFm.HOME, R.drawable.icons8_home_page_50);
+        SlideMenuItem menuItem2 = new SlideMenuItem(Constants.FRAGMENT_HOME, R.drawable.icons8_home_page_50);
         list.add(menuItem2);
-        SlideMenuItem menuItem3 = new SlideMenuItem(ContentFm.ALBUM, R.drawable.icons8_rhythm_50);
+        SlideMenuItem menuItem3 = new SlideMenuItem(Constants.FRAGMENT_ALBUM, R.drawable.icons8_rhythm_50);
         list.add(menuItem3);
-        SlideMenuItem menuItem4 = new SlideMenuItem(ContentFm.SONG_CATAGORIES, R.drawable.icons8_music_folder);
+        SlideMenuItem menuItem4 = new SlideMenuItem(Constants.FRAGMENT_CATEGORY, R.drawable.icons8_music_folder);
         list.add(menuItem4);
-        SlideMenuItem menuItem5 = new SlideMenuItem(ContentFm.SONG_MUSIC_TUNE, R.drawable.icons8_treble_clef);
+        SlideMenuItem menuItem5 = new SlideMenuItem(Constants.FRAGMENT_STYLE, R.drawable.icons8_treble_clef);
         list.add(menuItem5);
-        SlideMenuItem menuItem6 = new SlideMenuItem(ContentFm.INFORMATION, R.drawable.icons8_info);
+        SlideMenuItem menuItem6 = new SlideMenuItem(Constants.FRAGMENT_PLAYLIST, R.drawable.icons8_playlist);
         list.add(menuItem6);
+        SlideMenuItem menuItem7 = new SlideMenuItem(Constants.FRAGMENT_INFORMATION, R.drawable.icons8_info);
+        list.add(menuItem7);
     }
 
 
@@ -185,6 +194,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         };
         drawerLayout.setDrawerListener(drawerToggle);
+
+
     }
 
     @Override
@@ -291,15 +302,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //ContentFragment contentFragment = ContentFragment.newInstance(name);
         screenShot = new HomeFm();
         switch(name) {
-            case "User" : screenShot = new UserFm(); break;
-            case "Home" : screenShot = new HomeFm(); break;
-//            case "Chart" :screenShot = new FragmentChart(); break;
-//            case "Song" :screenShot = new FragmentSong(); break;
-//            case "Album" :screenShot = new FragmentAlbum(); break;
-//            case "Mv" :screenShot = new FragmentMv(); break;
-//            case "Searching": screenShot = new SearchingFragment(); break;
+            case Constants.FRAGMENT_USER : screenShot = new UserFm(); break;
+            case Constants.FRAGMENT_HOME : screenShot = new HomeFm(); break;
+            case Constants.FRAGMENT_ALBUM :screenShot = new AlbumFm(); break;
+            case Constants.FRAGMENT_CATEGORY :screenShot = new CategoryFm(); break;
+            case Constants.FRAGMENT_STYLE :screenShot = new StyleFm(); break;
+            case Constants.FRAGMENT_PLAYLIST :screenShot = new PlaylistFm(); break;
+            case Constants.FRAGMENT_INFORMATION : screenShot = new InformationFm(); break;
+            //case "Searching": screenShot = new SearchingFm(); break;
         }
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, (Fragment) screenShot).commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .addToBackStack(null)
+                .replace(R.id.content_frame, (Fragment) screenShot)
+                .commit();
         return screenShot;
     }
 
@@ -369,4 +385,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
         searchDialog.create().show();
     }
+
+
 }

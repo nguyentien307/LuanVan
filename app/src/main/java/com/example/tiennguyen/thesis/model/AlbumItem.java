@@ -1,22 +1,34 @@
 package com.example.tiennguyen.thesis.model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+
 /**
  * Created by Quyen Hua on 11/4/2017.
  */
 
-public class AlbumItem {
+public class AlbumItem implements Serializable {
     private String name;
     private String link;
+    private ArrayList<PersonItem> singers;
     private String linkImg;
     private int views;
 
-    public AlbumItem(String name, String link, String linkImg, int views) {
+    public AlbumItem(String name, String link, String linkImg, int views, ArrayList<PersonItem> singers) {
         this.name = name;
         this.link = link;
         this.linkImg = linkImg;
         this.views = views;
+        this.singers = singers;
     }
 
+    public ArrayList<PersonItem> getSingers() {
+        return singers;
+    }
+
+    public void setSingers(ArrayList<PersonItem> singers) {
+        this.singers = singers;
+    }
     public String getName() {
         return name;
     }

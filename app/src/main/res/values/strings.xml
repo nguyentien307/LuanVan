@@ -4,4 +4,6 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
 
+    <string name="action_play_all">Play All</string>
+    <string name="action_detail">Album\'s Detail</string>
 </resources>
