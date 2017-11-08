@@ -1,6 +1,7 @@
 package com.example.tiennguyen.thesis.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -18,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.tiennguyen.thesis.R;
+import com.example.tiennguyen.thesis.activities.PlayingMusic;
 import com.example.tiennguyen.thesis.activities.SearchResult;
 import com.example.tiennguyen.thesis.adapters.SongAdapter;
 import com.example.tiennguyen.thesis.interfaces.ScreenShotable;
@@ -25,6 +28,7 @@ import com.example.tiennguyen.thesis.model.PersonItem;
 import com.example.tiennguyen.thesis.model.SongItem;
 import com.example.tiennguyen.thesis.service.BaseURI;
 import com.example.tiennguyen.thesis.service.GetData;
+import com.example.tiennguyen.thesis.service.PlayerService;
 import com.example.tiennguyen.thesis.util.MyHandle;
 import com.example.tiennguyen.thesis.util.StringUtils;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
@@ -35,7 +39,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class SearchResultFm extends Fragment implements ScreenShotable {
+public class SearchResultFm extends Fragment implements ScreenShotable, AdapterView.OnItemClickListener {
 
     private ProgressBar pbSearchLoading;
     private LinearLayout llSearchResult;
@@ -92,6 +96,8 @@ public class SearchResultFm extends Fragment implements ScreenShotable {
         LayoutInflater li = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         footerView = li.inflate(R.layout.footer_view, null);
         myHandle = new MyHandle(myHandle());
+
+        lvSearchResult.setOnItemClickListener(this);
     }
 
     private MyHandle.HandleFooterView myHandle() {
@@ -223,6 +229,18 @@ public class SearchResultFm extends Fragment implements ScreenShotable {
             }
         });
         return footerSongArray;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        switch (parent.getId()) {
+            case R.id.lv_search_sesult:
+                Intent intent = new Intent(getActivity(), PlayingMusic.class);
+                startActivity(intent);
+                break;
+            default:
+                break;
+        }
     }
 
     public class ThreadGetMoreData extends Thread {

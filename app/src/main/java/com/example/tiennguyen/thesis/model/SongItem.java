@@ -23,6 +23,12 @@ public class SongItem {
         this.linkLyric = linkLyric;
     }
 
+    public SongItem(String title, ArrayList<PersonItem> artist, String link) {
+        this.title = title;
+        this.artist = artist;
+        this.link = link;
+    }
+
     public String getTitle() {
         return title;
     }

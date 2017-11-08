@@ -12,4 +12,7 @@
 
     <!--Playing Music-->
     <color name="red">#fc1606</color>
+
+    <!--Progress bar player color-->
+    <color name="progress_bar">#12ddbc</color>
 </resources>

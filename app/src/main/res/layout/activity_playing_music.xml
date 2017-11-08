@@ -4,71 +4,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.tiennguyen.thesis.activities.PlayingMusic">
-
+    android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/img_bg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/latestAddedSongs"
-            android:background="@drawable/one_direction_blur"
+            android:background="@drawable/bg"
             android:scaleType="centerCrop" />
 
-        <TextView
-            android:id="@+id/musicTitle"
-            android:layout_width="wrap_content"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_playing"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:text="Music Title"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/musicArtistName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/musicTitle"
-            android:layout_centerHorizontal="true"
-            android:text="Singer Name - Artist Here"
-            android:textColor="#FFFFFF"
-            android:textSize="14sp" />
+            android:minHeight="?attr/actionBarSize"
+            app:titleTextAppearance="@style/Toolbar.TitleText"/>
 
         <RelativeLayout
             android:id="@+id/songPlayerTopLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/musicArtistName"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp">
+            android:layout_below="@+id/toolbar_playing"
+            android:layout_alignParentStart="true">
 
 
             <co.mobiwise.library.InteractivePlayerView
                 android:id="@+id/interactivePlayerView"
-                android:layout_width="230dp"
-                android:layout_height="230dp"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
                 android:layout_centerInParent="true"
-                app:imageCover="@drawable/one_direction"
-                app:selectedAction1="@drawable/shuffle_selected"
-                app:selectedAction2="@drawable/like_selected"
-                app:selectedAction3="@drawable/replay_selected"
-                app:unselectedAction1="@drawable/shuffle_unselected"
-                app:unselectedAction2="@drawable/like_unselected"
-                app:unselectedAction3="@drawable/replay_unselected" />
+                app:imageCover="@drawable/bg"/>
+                <!--app:selectedAction1="@drawable/shuffle_selected"-->
+                <!--app:selectedAction2="@drawable/like_selected"-->
+                <!--app:selectedAction3="@drawable/replay_selected"-->
+                <!--app:unselectedAction1="@drawable/shuffle_unselected"-->
+                <!--app:unselectedAction2="@drawable/like_unselected"-->
+                <!--app:unselectedAction3="@drawable/replay_unselected" />-->
 
             <ImageView
-                android:layout_width="33dp"
-                android:layout_height="33dp"
+                android:id="@+id/img_next"
+                android:layout_width="37dp"
+                android:layout_height="37dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/interactivePlayerView"
                 android:background="@android:drawable/ic_media_next" />
 
             <ImageView
-                android:layout_width="33dp"
-                android:layout_height="33dp"
+                android:id="@+id/img_previous"
+                android:layout_width="37dp"
+                android:layout_height="37dp"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
                 android:layout_toLeftOf="@+id/interactivePlayerView"
@@ -76,185 +62,49 @@
 
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/latestAddedSongs"
+    <RelativeLayout
+        android:id="@+id/latestAddedSongs"
+        android:layout_width="wrap_content"
+        android:layout_height="230dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:background="#12ddbc">
+
+        <TextView
+            android:id="@+id/latestAddedSongTitle"
             android:layout_width="wrap_content"
-            android:layout_height="220dp"
-            android:layout_alignParentBottom="true"
-            android:background="#262626">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="15dp"
+            android:fontFamily="cursive"
+            android:text="Latest Added"
+            android:textColor="#222222"
+            android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/latestAddedSongTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:text="Latest Added"
-                android:textColor="#EEEEEE"
-                android:textSize="18sp" />
+        <View
+            android:id="@+id/view1"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/latestAddedSongTitle"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="#000000" />
 
-            <View
-                android:id="@+id/view1"
+        <LinearLayout
+            android:id="@+id/ll_list_song"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/view1">
+
+            <ListView
+                android:id="@+id/lv_list_song"
                 android:layout_width="match_parent"
-                android:layout_height="1.5dp"
-                android:layout_below="@+id/latestAddedSongTitle"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp"
-                android:background="#80fafafa" />
+                android:layout_height="match_parent"
+                android:layout_margin="16dp" />
 
-            <ScrollView
-                android:id="@+id/scrollView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/view1">
-
-                <RelativeLayout
-                    android:id="@+id/relativeLayout1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="16dp">
-
-                    <LinearLayout
-                        android:id="@+id/music1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="80dp"
-                            android:layout_height="50dp"
-                            android:src="@drawable/model_female" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:lines="1"
-                                android:text="Same Old Love - Selena Gomez"
-                                android:textColor="#ddd"
-                                android:textSize="18sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="7dp"
-                                android:text="Selena Gomez . 4:24"
-                                android:textColor="#ddd"
-                                android:textSize="12sp" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <View
-                        android:id="@+id/line1"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_below="@+id/music1"
-                        android:layout_marginTop="10dp"
-                        android:background="#20ffffff" />
-
-                    <LinearLayout
-                        android:id="@+id/music2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/line1"
-                        android:layout_marginTop="10dp"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="80dp"
-                            android:layout_height="50dp"
-                            android:src="@drawable/model_female" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:lines="1"
-                                android:text="Same Old Love - Selena Gomez"
-                                android:textColor="#ddd"
-                                android:textSize="18sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="7dp"
-                                android:text="Selena Gomez . 4:24"
-                                android:textColor="#ddd"
-                                android:textSize="12sp" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <View
-                        android:id="@+id/line2"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_below="@+id/music2"
-                        android:layout_marginTop="10dp"
-                        android:background="#20ffffff" />
-
-                    <LinearLayout
-                        android:id="@+id/music3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/line2"
-                        android:layout_marginTop="10dp"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="80dp"
-                            android:layout_height="50dp"
-                            android:src="@drawable/model_female" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:lines="1"
-                                android:text="Same Old Love - Selena Gomez"
-                                android:textColor="#ddd"
-                                android:textSize="18sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="7dp"
-                                android:text="Selena Gomez . 4:24"
-                                android:textColor="#ddd"
-                                android:textSize="12sp" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_below="@+id/music3"
-                        android:layout_marginTop="10dp"
-                        android:background="#20ffffff" />
-                </RelativeLayout>
-            </ScrollView>
-        </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="60dp"
@@ -263,7 +113,8 @@
             android:layout_alignTop="@+id/latestAddedSongs"
             android:layout_marginRight="20dp"
             android:layout_marginTop="-30dp"
-            android:background="@drawable/circle">
+            android:background="@drawable/circle"
+            android:id="@+id/relativeLayout2">
 
             <ImageView
                 android:id="@+id/control"
@@ -272,4 +123,66 @@
                 android:layout_centerInParent="true"
                 android:background="@drawable/ic_action_play" />
         </RelativeLayout>
-    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="42dp"
+        android:weightSum="1"
+        android:layout_alignBottom="@+id/songPlayerTopLayout"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:id="@+id/btn_backward"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_alignBottom="@+id/btn_replay"
+            android:layout_marginRight="12dp"
+            android:layout_toStartOf="@+id/btn_replay"
+            app:srcCompat="@android:drawable/ic_media_rew" />
+
+        <ImageView
+            android:id="@+id/btn_replay"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_alignBottom="@+id/songPlayerTopLayout"
+            android:layout_marginTop="13dp"
+            android:layout_toStartOf="@+id/relativeLayout2"
+            android:layout_weight="0.10"
+            app:srcCompat="@drawable/replay_unselected" />
+
+        <ImageView
+            android:id="@+id/btn_shuffle"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_alignStart="@+id/btn_replay"
+            android:layout_alignTop="@+id/btn_replay"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="13dp"
+            app:srcCompat="@drawable/shuffle_unselected" />
+
+        <ImageView
+            android:id="@+id/btn_nextward"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_alignBottom="@+id/btn_shuffle"
+            android:layout_marginLeft="12dp"
+            android:layout_toEndOf="@+id/btn_shuffle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            app:srcCompat="@android:drawable/ic_media_ff" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/songPlayerTopLayout"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="12dp"
+        android:layout_marginLeft="12dp"
+        app:srcCompat="@drawable/ic_action_navigation_arrow_back" />
+
+</RelativeLayout>
