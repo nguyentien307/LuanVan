@@ -123,7 +123,7 @@ public class SearchResultFm extends Fragment implements ScreenShotable, AdapterV
         StringUtils convertedToUnsigned = new StringUtils();
         String name = convertedToUnsigned.convertedToUnsigned(data);
         BaseURI baseURI = new BaseURI();
-        GetData getData = new GetData();
+        GetData getData = new GetData(getContext());
         getData.execute(baseURI.getSearchedSong(name, "song", startSearchIndex, startSearchIndex + 10));
         startSearchIndex += 10;
         getData.setDataDownloadListener(new GetData.DataDownloadListener() {
@@ -167,7 +167,7 @@ public class SearchResultFm extends Fragment implements ScreenShotable, AdapterV
             for(int i = 0; i < songList.length(); i++) {
                 JSONObject jsObject = songList.getJSONObject(i);
                 ArrayList<PersonItem> artists = getSingerList(jsObject);
-                SongItem item = new SongItem(jsObject.getString("title"),123, jsObject.getString("href"), artists, null, "");
+                SongItem item = new SongItem(jsObject.getString("title"),123, jsObject.getString("href"), artists, null, "", "");
                 songArr.add(item);
             }
             if (isMore == false) {
@@ -196,7 +196,7 @@ public class SearchResultFm extends Fragment implements ScreenShotable, AdapterV
 
     private void setAdapter(ArrayList<SongItem> searchingArray, String numFound) {
         tvSongNum.setText("Have " + numFound + " results is founded for '" + data + "'");
-        songAdapter = new SongAdapter(getActivity(), R.layout.song_searched_item, searchingArray);
+        songAdapter = new SongAdapter(getActivity(), R.layout.song_card, searchingArray);
         lvSearchResult.setAdapter(songAdapter);
     }
 
@@ -213,7 +213,7 @@ public class SearchResultFm extends Fragment implements ScreenShotable, AdapterV
     public ArrayList<SongItem> getMoreData() {
         ArrayList<SongItem> footerSongArray = new ArrayList<>();
         BaseURI baseURI = new BaseURI();
-        GetData getData = new GetData();
+        GetData getData = new GetData(getContext());
         getData.execute(baseURI.getSearchedSong(data, "song", startSearchIndex, startSearchIndex + 10));
         startSearchIndex += 10;
         getData.setDataDownloadListener(new GetData.DataDownloadListener() {

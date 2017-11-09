@@ -14,13 +14,17 @@ public class SongItem {
     private ArrayList<PersonItem> composer;
     private String linkLyric;
 
-    public SongItem(String title, int views, String link, ArrayList<PersonItem> artist, ArrayList<PersonItem> composer, String linkLyric) {
+
+    private String linkImg;
+
+    public SongItem(String title, int views, String link, ArrayList<PersonItem> artist, ArrayList<PersonItem> composer, String linkLyric, String linkImg) {
         this.title = title;
         this.views = views;
         this.link = link;
         this.artist = artist;
         this.composer = composer;
         this.linkLyric = linkLyric;
+        this.linkImg = linkImg;
     }
 
     public SongItem(String title, ArrayList<PersonItem> artist, String link) {
@@ -73,7 +77,11 @@ public class SongItem {
         return linkLyric;
     }
 
-    public void setLinkLyric(String linkLyric) {
-        this.linkLyric = linkLyric;
+    public String getLinkImg() {
+        return linkImg;
+    }
+
+    public void setLinkImg(String linkImg) {
+        this.linkImg = linkImg;
     }
 }

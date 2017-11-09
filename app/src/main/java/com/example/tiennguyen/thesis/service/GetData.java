@@ -1,6 +1,9 @@
 package com.example.tiennguyen.thesis.service;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,15 +22,28 @@ import java.net.URL;
 
 public class GetData extends AsyncTask<String, Void, JSONObject>
 {
+    private ProgressDialog dialog;
     DataDownloadListener dataDownloadListener;
-    public GetData()
+    Context ctx;
+    public GetData(Context ctx)
     {
         //Constructor may be parametric
+        this.dialog = new ProgressDialog(ctx);
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        this.ctx = ctx;
+
     }
 
     public void setDataDownloadListener(DataDownloadListener dataDownloadListener) {
         this.dataDownloadListener = dataDownloadListener;
     }
+
+    @Override
+    protected void onPreExecute() {
+//        this.dialog.setMessage("Please wait");
+//        this.dialog.show();
+    }
+
     @Override
     protected JSONObject doInBackground(String... param)
     {

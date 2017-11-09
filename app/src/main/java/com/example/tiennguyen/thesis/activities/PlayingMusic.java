@@ -67,7 +67,7 @@ public class PlayingMusic extends AppCompatActivity implements OnActionClickedLi
 
     private void setActionBar() {
         setSupportActionBar(toolbar);
-//        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //        toolbar.setOnMenuItemClickListener(this);
     }

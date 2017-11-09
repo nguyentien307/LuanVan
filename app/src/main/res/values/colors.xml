@@ -1,18 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#0be42c</color>
-    <color name="colorPrimaryDark">#0be42c</color>
+    <color name="colorPrimary">#43ae8a</color>
+    <color name="colorPrimaryDark">#43ae8a</color>
     <color name="colorAccent">#FF4081</color>
     
     <color name="devider_color">#1f0000</color>
+    <color name="fab_sheet_color">#ffffff</color>
+    <color name="fab_color">#43ae8a</color>
 
     <!--SearchView-->
     <color name="result_background">#dddddd</color>
     <color name="result_list_background">#ffffff</color>
 
-    <!--Playing Music-->
-    <color name="red">#fc1606</color>
-
     <!--Progress bar player color-->
     <color name="progress_bar">#12ddbc</color>
+
+    <color name="colorAccentPromptBackground">#F4FF4081</color>
+
+    <color name="green_200">#68EFAD</color>
+    <color name="orange_200">#FFCC80</color>
+
+    <color name="gray_300">#E0E0E0</color>
+
+
+    <color name="red">#f23636</color>
+    <color name="white">#f7f4f4</color>
+    <color name="blue">#2b39fa</color>
+    <color name="black">#000000</color>
+
+
+    <color name="viewBg">#f1f5f8</color>
+    <color name="album_title">#4c4c4c</color>
 </resources>
