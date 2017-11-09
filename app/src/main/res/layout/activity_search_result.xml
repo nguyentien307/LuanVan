@@ -21,4 +21,13 @@
             android:layout_marginTop="?attr/actionBarSize"
             android:orientation="vertical" />
 
+        <LinearLayout
+            android:id="@+id/ll_player_collapse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:visibility="gone">
+                <include layout="@layout/player_collapse" />
+        </LinearLayout>
+
 </android.support.v4.widget.DrawerLayout>

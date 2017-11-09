@@ -61,7 +61,7 @@ public class PlayingMusic extends AppCompatActivity implements OnActionClickedLi
         setActionBar();
         createArray();
         playerService = new Intent(this, PlayerService.class);
-        playerService.putExtra("songIndex", PlayerService.currentSongIndex);
+        playerService.putExtra("songIndex", 0);
         startService(playerService);
     }
 

@@ -25,6 +25,7 @@
                 android:value=".MainActivity" />
         </activity>
         <activity android:name=".activities.PlayingMusic">
+
         </activity>
 
         <service
